@@ -1,0 +1,46 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+.env
+*.env
+*.db
+.venv/
+venv/
+backend/.ipynb_checkpoints/
+
+# === FastAPI/Uvicorn ===
+backend/.mypy_cache/
+backend/.pytest_cache/
+backend/.vscode/
+
+# === TensorFlow SavedModel (optional if too large) ===
+backend/model/variables/
+backend/model/saved_model.pb
+
+# === Node (frontend + proxy) ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Vite/React build ===
+frontend/dist/
+frontend/.vite/
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === IDE ===
+.vscode/
+.idea/
+
+# === Others ===
+*.swp
+*.bak
+*.tmp
