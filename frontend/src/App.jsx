@@ -1,13 +1,26 @@
 import React, { useState } from "react";
+import "./index.css";
 
 export default function App() {
   const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(null);
   const [prediction, setPrediction] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
     setPrediction("");
+
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    } else {
+      setPreview(null);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -34,23 +47,38 @@ export default function App() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "20px" }}>
-      <h1>Eye Gaze Prediction</h1>
+    <div className="container">
+      <h1>🎯 Eye Gaze Prediction</h1>
+
       <form onSubmit={handleSubmit}>
         <input type="file" accept="image/*" onChange={handleFileChange} />
-        <br />
-        <button type="submit" disabled={loading} style={{ marginTop: "10px" }}>
+
+        {preview && (
+          <div style={{ textAlign: "center" }}>
+            <img
+              src={preview}
+              alt="Preview"
+              style={{
+                width: "100%",
+                maxHeight: "300px",
+                objectFit: "contain",
+                marginTop: "1rem",
+                borderRadius: "0.5rem",
+                border: "1px solid var(--color-border)",
+                padding: "5px",
+                backgroundColor: "#fafafa",
+              }}
+            />
+          </div>
+        )}
+
+        <button type="submit" disabled={loading}>
           {loading ? "Processing..." : "Predict"}
         </button>
       </form>
+
       {prediction && (
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "10px",
-            border: "1px solid #ccc",
-          }}
-        >
+        <div className="result">
           <h2>Prediction Result:</h2>
           <p>{prediction}</p>
         </div>
